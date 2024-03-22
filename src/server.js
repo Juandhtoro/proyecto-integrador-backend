@@ -59,7 +59,7 @@ const productsRouter = require("./routes/products.router.js");
 const database = require("./connectionDB.js");
 const { ENV_PATH, DIR_PUBLIC_PATH } = require("./constants/paths.js");
 const { ERROR_SERVER } = require("./constants/messages.js");
-const emailService = require("./emailService.js"); // Importa el servicio de correo electrónico
+const { sendEmail } = require("./controllers/contact.controller.js"); // Importa la función sendEmail del controlador de contacto
 
 // Configuración de express
 const server = express();
@@ -91,7 +91,7 @@ server.post("/api/contact", async (req, res) => {
     try {
         const { fullname, email, telephone, consult } = req.body;
         // Enviar correo electrónico con los detalles de la consulta
-        await emailService.sendContactEmail(fullname, email, telephone, consult);
+        await sendEmail(fullname, email, telephone, consult); // Utiliza la función sendEmail del controlador de contacto
         res.status(200).send({ success: true, message: "Consulta enviada con éxito" });
     } catch (error) {
         console.error("Error al enviar el correo electrónico:", error);
