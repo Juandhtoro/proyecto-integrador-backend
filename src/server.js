@@ -1,22 +1,22 @@
 // const express = require("express");
 // const multer = require("multer");
-
+// const cors = require("cors");
 // const productsRouter = require("./routes/products.router.js");
 // const database = require("./connectionDB.js");
-
 // const { ENV_PATH, DIR_PUBLIC_PATH } = require("./constants/paths.js");
 // const { ERROR_SERVER } = require("./constants/messages.js");
-
-// // variables de entorno
-// require("dotenv").config({ path: ENV_PATH });
 
 // // Configuración de express
 // const server = express();
 // const PORT = process.env.PORT || 3030;
 // const HOST = process.env.HOST || "localhost";
 
+// // variables de entorno
+// require("dotenv").config({ path: ENV_PATH });
+
 // // Middlewares
 // server.use(express.json());
+// server.use(cors()); // Habilita CORS para todas las rutas
 // server.use("/api/products", productsRouter);
 
 // // Configuración de carpeta estatica
@@ -36,6 +36,9 @@
 //     res.status(404).send("<h1>Error 404</h1><h3>La URL indicada no existe en este servidor</h3>");
 // });
 
+// // Middleware para manejar las solicitudes OPTIONS
+// server.options("*", cors());
+
 // // Método oyente de solicitudes
 // server.listen(PORT, HOST, () => {
 //     console.log(`Server NodeJS version: ${process.version}`);
@@ -49,8 +52,6 @@
 //     process.exit();
 // });
 
-// Importa los módulos necesarios
-
 const express = require("express");
 const multer = require("multer");
 const cors = require("cors");
@@ -58,6 +59,7 @@ const productsRouter = require("./routes/products.router.js");
 const database = require("./connectionDB.js");
 const { ENV_PATH, DIR_PUBLIC_PATH } = require("./constants/paths.js");
 const { ERROR_SERVER } = require("./constants/messages.js");
+const emailService = require("./emailService.js"); // Importa el servicio de correo electrónico
 
 // Configuración de express
 const server = express();
@@ -72,7 +74,7 @@ server.use(express.json());
 server.use(cors()); // Habilita CORS para todas las rutas
 server.use("/api/products", productsRouter);
 
-// Configuración de carpeta estatica
+// Configuración de carpeta estática
 server.use("/public", express.static(DIR_PUBLIC_PATH));
 
 // Control de errores
@@ -82,6 +84,19 @@ server.use((error, req, res, next) => {
     }
 
     res.status(500).send({ success: false, message: ERROR_SERVER });
+});
+
+// Ruta para manejar las solicitudes de contacto
+server.post("/api/contact", async (req, res) => {
+    try {
+        const { fullname, email, telephone, consult } = req.body;
+        // Enviar correo electrónico con los detalles de la consulta
+        await emailService.sendContactEmail(fullname, email, telephone, consult);
+        res.status(200).send({ success: true, message: "Consulta enviada con éxito" });
+    } catch (error) {
+        console.error("Error al enviar el correo electrónico:", error);
+        res.status(500).send({ success: false, message: ERROR_SERVER });
+    }
 });
 
 // Control de rutas inexistentes
