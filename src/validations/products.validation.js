@@ -32,6 +32,10 @@ const validateBody = (req, res, next) => {
         stock: Joi.number().integer().min(0).required(),
         price: Joi.number().min(1).required(),
         isPromotion: Joi.boolean().required(),
+        isFreeShip: Joi.boolean().required(),
+        brand:  Joi.string().required(),
+        type: Joi.string().required(),
+        category: Joi.string().required(),
     });
 
     validate(schema, req.body, res, next);
