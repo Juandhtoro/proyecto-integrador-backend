@@ -54,7 +54,7 @@ routes
     .post("/upload", uploaderImage.single("file"), (req, res) => {
         uploadImage(req, res);
     })
-    .post("/contact", validateBody, async (req, res) => { // Nueva ruta para manejar las solicitudes de contacto
+    .post("/api/contact", validateBody, async (req, res) => { // Cambia la ruta para que coincida con la definición en el frontend
         try {
             const { fullname, email, telephone, consult } = req.body;
             await sendEmail(fullname, email, telephone, consult); // Envía el correo electrónico
