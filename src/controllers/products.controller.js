@@ -22,7 +22,7 @@ const normalizeValue = (value) => {
 };
 
 const createSchema = (values) => {
-    const { id, name, description, imageFileName, stock, price, isPromotion } = values;
+    const { id, name, description, imageFileName, stock, price, isPromotion, isFreeShip, brand, type, category } = values;
 
     return {
         id: Number(id),
@@ -32,6 +32,10 @@ const createSchema = (values) => {
         stock: Number(stock),
         price: Number(price),
         isPromotion: Boolean(isPromotion),
+        isFreeShip: Boolean(isFreeShip),
+        brand: normalizeValue(brand),
+        type: normalizeValue(type),
+        category: normalizeValue(category),
     };
 };
 
