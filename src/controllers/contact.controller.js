@@ -2,10 +2,12 @@ const nodemailer = require("nodemailer");
 
 // Configura el transporter con las credenciales y configuraciones de tu proveedor de correo electrónico
 const transporter = nodemailer.createTransport({
-    service: "gmail",
+    host: "smtp.gmail.com",
+    port: 587,
+    secure: false,
     auth: {
-        user: "powerfulmountainsender@gmail.com", // Tu correo electrónico
-        pass: "Justtotest.24", // Tu contraseña
+        user: "powerfulmountainproject@gmail.com", // Tu correo electrónico
+        pass: "rwhl rbat girb lbmn", // Tu contraseña
     },
 });
 
