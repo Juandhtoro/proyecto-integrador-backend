@@ -33,7 +33,6 @@ const processShoppingCart = async (req, res) => {
             fecha: new Date(),
             total,
             nombre: customerInfo.nombre,
-            // Eliminado el campo de apellido
             productos: items.map((item) => ({
                 id: item.id,
                 nombre: item.name,
