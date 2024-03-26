@@ -24,9 +24,6 @@ routes
     })
     .post("/upload", uploaderImage.single("file"), (req, res) => {
         uploadImage(req, res);
-    })
-    .post("/process-cart", (req, res) => {
-        processShoppingCart(req, res);
     });
 
 module.exports = routes;
