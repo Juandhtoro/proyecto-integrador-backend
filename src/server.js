@@ -60,6 +60,7 @@ const database = require("./connectionDB.js");
 const { ENV_PATH, DIR_PUBLIC_PATH } = require("./constants/paths.js");
 const { ERROR_SERVER } = require("./constants/messages.js");
 const { sendEmail } = require("./controllers/contact.controller.js"); // Importa la función sendEmail del controlador de contacto
+const { processShoppingCart } = require("./controllers/shoppingCart.controller.js"); // Importa la función processShoppingCart del controlador de carrito
 
 // Configuración de express
 const server = express();
@@ -95,6 +96,17 @@ server.post("/api/contact", async (req, res) => {
         res.status(200).send({ success: true, message: "Consulta enviada con éxito" });
     } catch (error) {
         console.error("Error al enviar el correo electrónico:", error);
+        res.status(500).send({ success: false, message: ERROR_SERVER });
+    }
+});
+
+// Ruta para manejar las solicitudes de proceso de carrito
+server.post("/api/process-cart", async (req, res) => {
+    try {
+        // Aquí colocas el código para procesar el carrito
+        await processShoppingCart(req, res);
+    } catch (error) {
+        console.error("Error al procesar el carrito:", error);
         res.status(500).send({ success: false, message: ERROR_SERVER });
     }
 });
