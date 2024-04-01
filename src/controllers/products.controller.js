@@ -118,9 +118,9 @@ const update = async (req, res) => {
         const values = createSchema({ id, ...req.body });
         await collection.updateOne({ id: Number(id) }, { $set: values });
 
-        if (product.imageFileName != values.imageFileName) {
-            deleteImage(product.imageFileName);
-        }
+        // if (product.imageFileName != values.imageFileName) {
+        //     deleteImage(product.imageFileName);
+        // }
 
         res.status(200).send({ success: true, data: values });
     } catch (error) {
