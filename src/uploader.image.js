@@ -1,6 +1,6 @@
 const multer = require("multer");
 
-const { DIR_IMAGES_PATH } = require("./constants/paths.js");
+const { DIR_PUBLIC_PATH } = require("./constants/paths.js");
 const { ERROR_UPLOAD_IMAGE } = require("./constants/messages.js");
 
 const { getRandomNumber } = require("./helpers/math.helper.js");
