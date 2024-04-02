@@ -104,6 +104,31 @@ const create = async (req, res) => {
     }
 };
 
+// const update = async (req, res) => {
+//     res.set(HEADER_CONTENT_TYPE);
+
+//     try {
+//         const { id } = req.params;
+
+//         const collection = await getCollection("products");
+//         const product = await collection.findOne({ id: Number(id) });
+
+//         if (!product) return res.status(404).send({ success: false, message: ERROR_ID_NOT_FOUND });
+
+//         const values = createSchema({ id, ...req.body });
+//         await collection.updateOne({ id: Number(id) }, { $set: values });
+
+//         if (product.imageFileName != values.imageFileName) {
+//             deleteImage(product.imageFileName);
+//         }
+
+//         res.status(200).send({ success: true, data: values });
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(500).send({ success: false, message: ERROR_SERVER });
+//     }
+// };
+
 const update = async (req, res) => {
     res.set(HEADER_CONTENT_TYPE);
 
@@ -116,13 +141,13 @@ const update = async (req, res) => {
         if (!product) return res.status(404).send({ success: false, message: ERROR_ID_NOT_FOUND });
 
         const values = createSchema({ id, ...req.body });
-        await collection.updateOne({ id: Number(id) }, { $set: values });
 
-        if (product.imageFileName != values.imageFileName) {
-            deleteImage(product.imageFileName);
-        }
+        // Eliminar el campo _id del objeto values
+        const { _id, ...updatedValues } = values;
 
-        res.status(200).send({ success: true, data: values });
+        await collection.updateOne({ id: Number(id) }, { $set: updatedValues });
+
+        res.status(200).send({ success: true, data: updatedValues });
     } catch (error) {
         console.log(error.message);
         res.status(500).send({ success: false, message: ERROR_SERVER });
