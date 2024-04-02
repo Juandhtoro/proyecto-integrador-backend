@@ -8,7 +8,7 @@ const { getDatetimeAsInteger } = require("./helpers/datetime.helper.js");
 
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, DIR_IMAGES_PATH);
+        cb(null, DIR_PUBLIC_PATH);
     },
     filename: function (req, file, cb) {
         const datetime = getDatetimeAsInteger();
