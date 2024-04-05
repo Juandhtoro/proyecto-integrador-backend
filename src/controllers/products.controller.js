@@ -151,6 +151,21 @@ const remove = async (req, res) => {
     }
 };
 
+// const uploadImage = async (req, res) => {
+//     res.set(HEADER_CONTENT_TYPE);
+
+//     try {
+//         const file = req.file;
+
+//         if (!file) return res.status(400).send({ success: false, message: ERROR_UPLOAD_NULL });
+
+//         res.status(201).send({ success: true, data: file });
+//     } catch (error) {
+//         console.log(error.message);
+//         res.status(500).send({ success: false, message: ERROR_SERVER });
+//     }
+// };
+
 const uploadImage = async (req, res) => {
     res.set(HEADER_CONTENT_TYPE);
 
@@ -159,11 +174,12 @@ const uploadImage = async (req, res) => {
 
         if (!file) return res.status(400).send({ success: false, message: ERROR_UPLOAD_NULL });
 
-        res.status(201).send({ success: true, data: file });
+        res.status(201).send({ success: true, data: { filename: file.filename, originalname: file.originalname } });
     } catch (error) {
         console.log(error.message);
         res.status(500).send({ success: false, message: ERROR_SERVER });
     }
 };
+
 
 module.exports = { getAll, getOne, create, update, remove, uploadImage };
